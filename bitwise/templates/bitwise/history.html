@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>History - Assignment 6</title>
+</head>
+<body>
+  <h1>Saved History</h1>
+  <p><a href="/">Home</a> | <a href="/history/">History</a></p>
+
+  {% if error %}
+    <p>{{ error }}</p>
+  {% endif %}
+
+  {% if entries %}
+    <table border="1" cellpadding="4" cellspacing="0">
+      <tr>
+        <th>Time (UTC)</th>
+        <th>Input (a,b,c,d,e)</th>
+        <th>Average</th>
+        <th>Positives / Parity</th>
+        <th>&gt;10 Sorted</th>
+      </tr>
+      {% for doc in entries %}
+        <tr>
+          <td>{{ doc.created_at }}</td>
+          <td>a={{ doc.input.a }}, b={{ doc.input.b }}, c={{ doc.input.c }}, d={{ doc.input.d }}, e={{ doc.input.e }}</td>
+          <td>{{ doc.result.average }}</td>
+          <td>{{ doc.result.positive_count }} {% if doc.result.positive_count_is_even %}(even){% else %}(odd){% endif %}</td>
+          <td>{{ doc.result.gt10_sorted }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No saved data.</p>
+  {% endif %}
+
+</body>
+</html>
+
