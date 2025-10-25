@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assignment 6 - Bitwise App</title>
+</head>
+<body>
+  <h1>IST105 Assignment 6</h1>
+  <p><a href="/">Home</a> | <a href="/history/">History</a></p>
+
+  <h2>Input</h2>
+  <!-- Enter five numbers. Negative values are accepted; a warning is shown in results. -->
+  <form method="post">
+    {% csrf_token %}
+    <p>
+      <label for="id_a">a</label> {{ form.a }}
+      <label for="id_b">b</label> {{ form.b }}
+      <label for="id_c">c</label> {{ form.c }}
+      <label for="id_d">d</label> {{ form.d }}
+      <label for="id_e">e</label> {{ form.e }}
+    </p>
+    {% if form.errors %}
+      <p>Input error: please enter numeric values.</p>
+    {% endif %}
+    <button type="submit">Analyze</button>
+  </form>
+
+  {% if result %}
+  <h2>Results</h2>
+  <p><strong>Original Values:</strong> {{ result.original }}</p>
+  <p><strong>Sorted Values (greater than 10):</strong> {{ result.gt10_sorted }}</p>
+  <p><strong>Average:</strong> {{ result.average }} {% if result.average_gt_50 %}(> 50){% else %}(≤ 50){% endif %}</p>
+  <p><strong>Count of positive numbers:</strong> {{ result.positive_count }}
+     {% if result.positive_count_is_even %}→ even (count &amp; 1 == 0){% else %}→ odd (count &amp; 1 == 1){% endif %}
+  </p>
+  <p><strong>All numeric:</strong> True (validated by form)</p>
+  <p><strong>Negative values:</strong>
+    {% if result.has_negative %}WARNING → {{ result.negatives }}{% else %}none{% endif %}
+  </p>
+
+  {% if saved %}
+    <p>Saved to MongoDB.</p>
+  {% elif save_error %}
+    <p>Save skipped/error: {{ save_error }}</p>
+  {% endif %}
+  {% endif %}
+
+</body>
+</html>
